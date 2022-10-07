@@ -64,9 +64,9 @@ fn compile(node: Node) -> (Type, Thunk) {
 }
 ```
 
-And while it might seem like a lot more work compared to just evaluating stuff,
-the gain here comes from the fact that during the compilation we can e.g.
-preallocate variables into stack-slots:
+This allows not only to type-check _all_ of the code up-front, but also to
+perform otherwise impossible optimizations such as preallocating variables into 
+stack-slots:
 
 ``` rust
 struct CompilationContext {
@@ -89,13 +89,15 @@ fn compile(ctxt: &mut CompilationContext, node: Node) -> (Type, Thunk) {
 
             ctxt.stack.push(ty);
             ctxt.vars.insert(name, ty);
-            
+
             let thunk = Box::new(move |ctxt: &mut RuntimeContext| {
                 // Voilà, no HashMap / BTreeMap needed at runtime!
                 ctxt.stack[id] = value(ctxt);
+
+                Value::Unit
             });
             
-            (ty, thunk)
+            (Type::Unit, thunk)
         },
         
         /// `name`
@@ -117,9 +119,10 @@ fn compile(ctxt: &mut CompilationContext, node: Node) -> (Type, Thunk) {
 }
 ```
 
-Thanks to this preallocation, during the runtime there's no need to use any
-`var name => var value` map, since each variable has its own stack slot
-determined at compile time.
+Thanks to this approach, an interpreter / a virtual machine written in this way
+can be faster than a typical one, because the "compiled" program doesn't have to
+perform any `var-name => var-value` map-based lookups anymore - to read or write
+a variable, it simply accesses it by its _index_!
 
 ## Running locally
 
