@@ -1,0 +1,25 @@
+[package]
+name = "rast-jit-vm"
+version = "0.1.0"
+authors = ["Patryk Wychowaniec <pwychowaniec@pm.me>"]
+edition = "2021"
+
+[[bin]]
+name = "basic"
+path = "bins/basic.rs"
+
+[[bin]]
+name = "mandelbrot-compile"
+path = "bins/mandelbrot_compile.rs"
+
+[[bin]]
+name = "mandelbrot-compile-100k"
+path = "bins/mandelbrot_compile_100k.rs"
+
+[[bin]]
+name = "mandelbrot-eval"
+path = "bins/mandelbrot_eval.rs"
+
+[[bin]]
+name = "mandelbrot-eval-100k"
+path = "bins/mandelbrot_eval_100k.rs"
