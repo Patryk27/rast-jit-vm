@@ -149,17 +149,17 @@ $ cargo run --release --bin mandelbrot-eval-100k
 Using the Mandelbrot fractal as a benchmark, tuned to 100k iterations for extra
 synthetic-benchmarking-juice, I've been able to obtain the following times:
 
-- pure Rust¹: 1.5s
-- Python²: 115s
-- rast-jit-vm, evaluated³: 130s
-- **rast-jit-vm, compiled⁴: 50s**
+- Rust¹: 1.5s
+- **rast-jit-vm, compiled²: 50s**
+- Python³: 115s
+- rast-jit-vm, evaluated⁴: 130s
 
 _(technology: time to render the fractal; less is better)_
 
 ¹ `cd benches && rustc -O mandelbrot.rs && ./mandelbrot`    
-² `cd benches && python3 ./mandelbrot.py`    
-³ `cargo run --release --bin mandelbrot-eval-100k`    
-⁴ `cargo run --release --bin mandelbrot-compile-100k`
+² `cargo run --release --bin mandelbrot-compile-100k`    
+³ `cd benches && python3 ./mandelbrot.py`    
+⁴ `cargo run --release --bin mandelbrot-eval-100k`
 
 ### Missing features
 
